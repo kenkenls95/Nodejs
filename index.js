@@ -3,7 +3,6 @@ var mqtt       = require('mqtt');
 var express    = require('express');        
 var app        = express();                 
 var bodyParser = require('body-parser');
-const cool     = require('cool-ascii-faces')
 
 
 
