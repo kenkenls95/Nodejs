@@ -3,7 +3,6 @@ var mqtt       = require('mqtt');
 var express    = require('express');        
 var app        = express();                 
 var bodyParser = require('body-parser');
-const cool     = require('cool-ascii-faces')
 
 
 
@@ -182,4 +181,3 @@ app.set('views','./views')
 app.get('/', function (req, res) {
   res.render('remote');
 })
-app.get('/cool', (req, res) => res.send(cool()))
