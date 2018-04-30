@@ -3,7 +3,6 @@ var mqtt       = require('mqtt');
 var express    = require('express');        
 var app        = express();                 
 var bodyParser = require('body-parser');
-var cors       = require('cors');
 
 
 
@@ -142,12 +141,7 @@ const addLed = (led1,led2,led3,led4) =>{
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(cors({
-  origin: 'http://localhost:8080',
-  credentials: true
-}));
 
-var port = process.env.PORT || 8080;
 var router = express.Router(); 
 router.get('/', function(req, res) {
     res.json({ message: 'hooray! welcome to our api!' });   
@@ -177,11 +171,12 @@ router.post('/remove',function(req,res){
     res.json({message : 'deleted success'})
 })
 app.use('/api', router);
-app.listen(port);
+app.listen(process.env.PORT || 8080);
 
 
 //=========== Controller =============================
 app.set('view engine', 'ejs');
+app.set('views','./views')
 app.get('/', function (req, res) {
   res.render('remote');
 })
