@@ -1,0 +1,21 @@
+{
+  "name": "mydb",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "arraylist": "^0.1.0",
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "ejs": "^2.5.9",
+    "express": "^4.16.3",
+    "mongoose": "^5.0.15",
+    "mqtt": "^2.17.0",
+    "mysql": "^2.15.0"
+  }
+}

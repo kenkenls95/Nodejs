@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+
+    <link rel="stylesheet" type="text/css" th:href="@{/css/admin.css}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.9.0/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+	.switch {
+	  position: relative;
+	  display: inline-block;
+	  width: 60px;
+	  height: 34px;
+	}
+
+	.switch input {display:none;}
+
+	.slider {
+	  position: absolute;
+	  cursor: pointer;
+	  top: 0;
+	  left: 0;
+	  right: 0;
+	  bottom: 0;
+	  background-color: #ccc;
+	  -webkit-transition: .4s;
+	  transition: .4s;
+	}
+
+	.slider:before {
+	  position: absolute;
+	  content: "";
+	  height: 26px;
+	  width: 26px;
+	  left: 4px;
+	  bottom: 4px;
+	  background-color: white;
+	  -webkit-transition: .4s;
+	  transition: .4s;
+	}
+
+	input:checked + .slider {
+	  background-color: #2196F3;
+	}
+
+	input:focus + .slider {
+	  box-shadow: 0 0 1px #2196F3;
+	}
+
+	input:checked + .slider:before {
+	  -webkit-transform: translateX(26px);
+	  -ms-transform: translateX(26px);
+	  transform: translateX(26px);
+	}
+
+	/* Rounded sliders */
+	.slider.round {
+	  border-radius: 34px;
+	}
+
+	.slider.round:before {
+	  border-radius: 50%;
+	}
+</style>
+</head>
+<body>
+	
+	<div class="container">
+		<div class="row">
+			<h2>Toggle Switch</h2>
+
+			<label class="switch">
+			  <input type="checkbox">
+			  <span class="slider round"></span>
+			</label><br><br>
+
+			<label class="switch">
+			  <input type="checkbox" >
+			  <span class="slider round"></span>
+			</label><br><br>
+
+			<label class="switch">
+			  <input type="checkbox">
+			  <span class="slider round"></span>
+			</label><br><br>
+
+			<label class="switch">
+			  <input type="checkbox" >
+			  <span class="slider round"></span>
+			</label><br><br>
+			<button class="send">send</button>
+			<button class="remove">remove data</button>
+		</div>
+	</div>
+
+
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.9.0/sweetalert2.all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/locale/vi.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+	
+	<script>
+	$(document).ready(function(){
+		for(var i =0; i <= $(".switch > input").length;i++){
+			$(".switch > input").attr('checked',false);
+		}
+
+		var led1,led2,led3,led4;
+		
+	    $(".send").click(function(){
+	    	if($(".switch > input")[0].checked){
+				led1 =1;
+			}else{
+				led1 =0;
+			}
+			if($(".switch > input")[1].checked){
+				led2 =1;
+			}else{
+				led2 =0;
+			}
+			if($(".switch > input")[2].checked){
+				led3 =1;
+			}else{
+				led3 =0;
+			}
+			if($(".switch > input")[3].checked){
+				led4 =1;
+			}else{
+				led4 =0;
+			}
+
+
+		
+	  	var linkPost = ""+$(location).attr('href')+"api/doLed";
+	  	var status = {};
+	  	status.led = [];
+	  	status.led[0]= led1;
+	  	status.led[1]= led2;
+	  	status.led[2]= led3;
+	  	status.led[3]= led4; 
+	  	
+	  	$.post(linkPost, status ,function(res){
+            if(res.success) {
+                swal(
+                    'Good job!',
+                    res.data.message,
+                    'success'
+                ).then(function() {
+                    location.reload();
+                });
+            } else {
+                swal(
+                    'Error',
+                    res.data.message,
+                    'error'
+                );
+            }
+        }, function(err){
+            NProgress.done();
+            swal(
+                'Error',
+                'Some error when saving product',
+                'error'
+            );
+        });
+	    });
+	    $(".remove").click(function(){
+	    	$.post(""+$(location).attr('href')+"api/remove",
+	        {
+	          "remove":true
+	        },
+	        function(data,status){
+	            alert("Data: " + data + "\nStatus: " + status);
+	        });
+	    })
+	});
+	</script>
+
+</body>
+</html>
