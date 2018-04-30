@@ -9,8 +9,6 @@
 
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
-
-    <link rel="stylesheet" type="text/css" th:href="@{/css/admin.css}"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.9.0/sweetalert2.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css">
@@ -77,32 +75,133 @@
 	
 	<div class="container">
 		<div class="row">
-			<h2>Toggle Switch</h2>
+			<nav class="navbar navbar-inverse">
+		        <div class="container">
+		            <div class="col-lg-12 col-sm-12 col-md-12">
+		            	<div id="navbar" class="collapse navbar-collapse">
+			               <ul class="nav navbar-nav">
+			                    <li ><a class="btn-hover" href="/">Home</a></li>
+			                    <li ><a href="/remote">Remote</a></li>
+			                    <li><a href="/environment">Environment</a></li>
+			                </ul>
+			            </div>
+		            </div>
+		        </div>
+		    </nav>
+		</div>
+		<div class="row" style="margin-top:20px">
+			<div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+				<h2>Bảng điều khiển</h2>
 
-			<label class="switch">
-			  <input type="checkbox">
-			  <span class="slider round"></span>
-			</label><br><br>
+		 		<label class="switch">
+				  <input type="checkbox">
+				  <span class="slider round"></span>
+				</label><br><br>
 
-			<label class="switch">
-			  <input type="checkbox" >
-			  <span class="slider round"></span>
-			</label><br><br>
+				<label class="switch">
+				  <input type="checkbox" >
+				  <span class="slider round"></span>
+				</label><br><br>
 
-			<label class="switch">
-			  <input type="checkbox">
-			  <span class="slider round"></span>
-			</label><br><br>
+				<label class="switch">
+				  <input type="checkbox">
+				  <span class="slider round"></span>
+				</label><br><br>
 
-			<label class="switch">
-			  <input type="checkbox" >
-			  <span class="slider round"></span>
-			</label><br><br>
-			<button class="send">send</button>
-			<button class="remove">remove data</button>
+				<label class="switch">
+				  <input type="checkbox" >
+				  <span class="slider round"></span>
+				</label><br><br>
+				<button class="send label-primary">Gửi</button>
+				<button class="remove label-danger">Xóa dữ liệu</button>
+			</div>
+			<div class="col-lg-6 col-sm-6 col-md-6 col-xs-6"></div>
+		</div>
+		<div class="row" style="margin-top:20px">
+			<div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
+			<h2>Bảng tìm kiếm</h2>
+				<table class=" text-center table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Value</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                        
+
+                    </tbody>
+            	</table>
+			</div>
+			<div class="col-lg-4" style="margin-top: 62px">
+			    <div class="input-group">
+			      <input type="text" class="form-control">
+			      <span class="input-group-btn">
+			        <button class="btn btn-default" type="button">Tìm</button>
+			      </span>
+			    </div>
+			  </div>
+			</div>
 		</div>
 	</div>
 
+        <footer>
+            <!-- this is footer -->
+            <div class="container text-center">
+                <hr />
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="col-md-3">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li><a href="#">About us</a></li>
+                                <li><a href="#">Blog</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-3">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li><a href="#">Product for Mac</a></li>
+                                <li><a href="#">Product for Windows</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-3">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li><a href="#">Web analytics</a></li>
+                                <li><a href="#">Presentations</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-3">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li><a href="#">Product Help</a></li>
+                                <li><a href="#">Developer API</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <ul class="nav nav-pills nav-justified">
+                            <li><a href="/">&copy; 2018 KIENVT</a></li>
+                            <li><a href="#">Terms of Service</a></li>
+                            <li><a href="#">Privacy</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.9.0/sweetalert2.all.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/locale/vi.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+
+        </footer>
 
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -116,9 +215,25 @@
 	
 	<script>
 	$(document).ready(function(){
-		for(var i =0; i <= $(".switch > input").length;i++){
-			$(".switch > input").attr('checked',false);
+		function readData (data){
+			if(data == 1){
+				return true;
+			}else{
+				return false;
+			}
 		}
+		$.get($(location).attr('href')+"/api/getLed", function(data, status){
+		   
+           $(".switch > input")[0].checked = readData(data.led1);
+           
+           $(".switch > input")[1].checked = readData(data.led2);
+           
+           $(".switch > input")[2].checked = readData(data.led3);
+           
+           $(".switch > input")[3].checked = readData(data.led4);
+
+        });
+
 
 		var led1,led2,led3,led4;
 		
@@ -143,10 +258,7 @@
 			}else{
 				led4 =0;
 			}
-
-
-		
-	  	var linkPost = ""+$(location).attr('href')+"api/doLed";
+	  	var linkPost = ""+$(location).attr('href')+"/api/doLed";
 	  	var status = {};
 	  	status.led = [];
 	  	status.led[0]= led1;
@@ -154,11 +266,13 @@
 	  	status.led[2]= led3;
 	  	status.led[3]= led4; 
 	  	
-	  	$.post(linkPost, status ,function(res){
-            if(res.success) {
+	  	$.post(linkPost, status , function(data, status){
+        
+    	
+	  	if(data.success === true) {
                 swal(
                     'Good job!',
-                    res.data.message,
+                    data.message,
                     'success'
                 ).then(function() {
                     location.reload();
@@ -166,28 +280,50 @@
             } else {
                 swal(
                     'Error',
-                    res.data.message,
+                    data.message,
                     'error'
                 );
             }
-        }, function(err){
-            NProgress.done();
-            swal(
-                'Error',
-                'Some error when saving product',
-                'error'
-            );
-        });
-	    });
+	  });
+	  });
+        
+	    
 	    $(".remove").click(function(){
-	    	$.post(""+$(location).attr('href')+"api/remove",
+	    	swal({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true
+        }).then(function(result){
+        	if(result.value){
+        		$.post(""+$(location).attr('href')+"/api/remove",
 	        {
 	          "remove":true
 	        },
 	        function(data,status){
-	            alert("Data: " + data + "\nStatus: " + status);
+	            if(data.success === true) {
+                swal(
+                    'Good job!',
+                    data.message,
+                    'success'
+                ).then(function() {
+                    location.reload();
+                });
+            } else {
+                swal(
+                    'Error',
+                    data.message,
+                    'error'
+                );
+            }
 	        });
-	    })
+        	}
+        });
+	    	
+	    });
+
+
+
 	});
 	</script>
 

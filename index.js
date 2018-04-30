@@ -3,6 +3,7 @@ var mqtt       = require('mqtt');
 var express    = require('express');        
 var app        = express();                 
 var bodyParser = require('body-parser');
+const cool     = require('cool-ascii-faces')
 
 
 
@@ -138,6 +139,8 @@ const addLed = (led1,led2,led3,led4) =>{
 });
 }
 
+
+
 // ============Setup API==========================
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -147,11 +150,6 @@ var router = express.Router();
 router.get('/', function(req, res) {
     res.json({ message: 'hooray! welcome to our api!' });   
 });
-router.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "http://localhost:8080");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-}); 
 router.post('/doLed',function(req,res){
     console.log("Message :",req.body)
     var led1 = req.body.led[0];
@@ -169,15 +167,34 @@ router.post('/remove',function(req,res){
     console.log("Message :",req.body)
     var text = "{\"remove\":"+req.body.remove+"}";
     client.publish("Remove", ""+text+"");
-    res.json({message : 'deleted success'})
+    res.json({message : 'deleted success',
+              success : true})
 })
-app.use('/api', router);
-app.listen(process.env.PORT || 8080);
+router.get('/getLed',function(req,res){
+    con.connect(function(err){
+    var sql = "SELECT * FROM `tbl_led` WHERE `id`=(SELECT max(`id`) FROM `tbl_led`)";
+    con.query(sql,function(err,result,fields){
+    
+    Object.keys(result).forEach(function(key) {
+      var field = result[key];
+      res.json(field)
+    });
+    })
+  })
+});
+app.use('/remote/api', router);
+app.listen(process.env.PORT || 5000);
 
 
 //=========== Controller =============================
 app.set('view engine', 'ejs');
 app.set('views','./views')
-app.get('/', function (req, res) {
+app.get('/remote', function (req, res) {
   res.render('remote');
+})
+app.get('/environment', function (req, res) {
+  res.render('environment');
+})
+app.get('/', function (req, res) {
+  res.render('index');
 })
