@@ -7,7 +7,6 @@ var bodyParser = require('body-parser');
 
 
 
-
 // ===============Setup MQTT Broker==============
 const client = mqtt.connect("mqtt://m14.cloudmqtt.com", {
     username: "maukmmii",
@@ -207,8 +206,44 @@ app.set('views','./views')
 app.get('/remote', function (req, res) {
   res.render('remote');
 })
-app.get('/environment', function (req, res) {
-  res.render('environment');
+app.get('/environment/humidity', function (req, res) {
+  con.connect(function(err){
+       con.query('SELECT * FROM `tbl_humidity`', function(err, result) {
+        var obj = {};
+        if(err){
+            throw err;
+        } else {
+            obj = {print: result};
+            res.render('humidity', obj);                
+        }
+    });
+  })
+})
+app.get('/environment/temperature', function (req, res) {
+  con.connect(function(err){
+       con.query('SELECT * FROM `tbl_temperature`', function(err, result) {
+        var obj = {};
+        if(err){
+            throw err;
+        } else {
+            obj = {print: result};
+            res.render('temperature', obj);                
+        }
+    });
+  })
+})
+app.get('/environment/soilmoisture', function (req, res) {
+  con.connect(function(err){
+       con.query('SELECT * FROM `tbl_soilmoisture`', function(err, result) {
+        var obj = {};
+        if(err){
+            throw err;
+        } else {
+            obj = {print: result};
+            res.render('soilmoisture', obj);                
+        }
+    });
+  })
 })
 app.get('/', function (req, res) {
   res.render('index');

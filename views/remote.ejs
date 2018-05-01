@@ -82,8 +82,13 @@
 			               <ul class="nav navbar-nav">
 			                    <li ><a class="btn-hover" href="/">Home</a></li>
 			                    <li ><a href="/remote">Remote</a></li>
-			                    <li><a href="/environment">Environment</a></li>
+			                    <li ><a class="btn-dropdown" style=" cursor: pointer;">Environment</a></li>
 			                </ul>
+			                <ul class="dropdown-menu" style="margin-left: 176px;">
+							    <li><a href="/environment/humidity">Humidity</a></li>
+							    <li><a href="/environment/temperature">Temperature</a></li>
+							    <li><a href="/environment/soilmoisture">Soilmoisture</a></li>
+							  </ul>
 			            </div>
 		            </div>
 		        </div>
@@ -297,7 +302,9 @@
 	    	
 	    });
 
-
+	$(".btn-dropdown").click(function(){
+	        $(".dropdown-menu").toggle();
+	    });
 
 	});
 	</script>

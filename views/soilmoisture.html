@@ -14,61 +14,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-	.switch {
-	  position: relative;
-	  display: inline-block;
-	  width: 60px;
-	  height: 34px;
-	}
 
-	.switch input {display:none;}
-
-	.slider {
-	  position: absolute;
-	  cursor: pointer;
-	  top: 0;
-	  left: 0;
-	  right: 0;
-	  bottom: 0;
-	  background-color: #ccc;
-	  -webkit-transition: .4s;
-	  transition: .4s;
-	}
-
-	.slider:before {
-	  position: absolute;
-	  content: "";
-	  height: 26px;
-	  width: 26px;
-	  left: 4px;
-	  bottom: 4px;
-	  background-color: white;
-	  -webkit-transition: .4s;
-	  transition: .4s;
-	}
-
-	input:checked + .slider {
-	  background-color: #2196F3;
-	}
-
-	input:focus + .slider {
-	  box-shadow: 0 0 1px #2196F3;
-	}
-
-	input:checked + .slider:before {
-	  -webkit-transform: translateX(26px);
-	  -ms-transform: translateX(26px);
-	  transform: translateX(26px);
-	}
-
-	/* Rounded sliders */
-	.slider.round {
-	  border-radius: 34px;
-	}
-
-	.slider.round:before {
-	  border-radius: 50%;
-	}
 </style>
 </head>
 <body>
@@ -82,8 +28,13 @@
 			               <ul class="nav navbar-nav">
 			                    <li ><a class="btn-hover" href="/">Home</a></li>
 			                    <li ><a href="/remote">Remote</a></li>
-			                    <li><a href="/environment">Environment</a></li>
+			                    <li ><a class="btn-dropdown" style=" cursor: pointer;">Environment</a></li>
 			                </ul>
+			                <ul class="dropdown-menu" style="margin-left: 176px;">
+							    <li><a href="/environment/humidity">Humidity</a></li>
+							    <li><a href="/environment/temperature">Temperature</a></li>
+							    <li><a href="/environment/soilmoisture">Soilmoisture</a></li>
+							  </ul>
 			            </div>
 		            </div>
 		        </div>
@@ -92,21 +43,26 @@
 		<div class="row" style="margin-top:20px">
 			<div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
 			<h2>Bảng tìm kiếm</h2>
-				<table class=" text-center table table-bordered table-hover">
-                    <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Value</th>
-                        <th>Date</th>
-                        <th>Status</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-
-                        
-
-                    </tbody>
-            	</table>
+				 <table class="table" class="text-center" >  
+			        <thead>  
+			            <tr>  
+			                <th>ID</th>  
+			                <th>Value</th>
+			                <th>Date</th>
+			                <th>Status</th>  
+			            </tr>  
+			        </thead>  
+			         <tbody>  
+			         <% print.forEach(function (soilmoisture) { %>
+			            <tr>  
+			                <td><%= soilmoisture.id %></td>  
+			                <td><%= soilmoisture.value %></td>
+			                <td><%= soilmoisture.date %></td>
+			                <td><%= soilmoisture.status %></td>
+			            </tr>                                   
+			         <% }) %>
+			         </tbody>
+			    </table>   
 			</div>
 			<div class="col-lg-4" style="margin-top: 62px">
 			    <div class="input-group">
@@ -185,120 +141,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
 	
-	<script>
+
+	<script type="text/javascript">
 	$(document).ready(function(){
-		function readData (data){
-			if(data == 1){
-				return true;
-			}else{
-				return false;
-			}
-		}
-
-		for(var i =0 ; i<1;i++){
-			$.get($(location).attr('href')+"/api/getLed", function(data, status){
-		   
-           $(".switch > input")[0].checked = readData(data.led1);
-           
-           $(".switch > input")[1].checked = readData(data.led2);
-           
-           $(".switch > input")[2].checked = readData(data.led3);
-           
-           $(".switch > input")[3].checked = readData(data.led4);
-
-        });
-		}
-
-
-		var led1,led2,led3,led4;
-		
-	    $(".send").click(function(){
-	    	if($(".switch > input")[0].checked){
-				led1 =1;
-			}else{
-				led1 =0;
-			}
-			if($(".switch > input")[1].checked){
-				led2 =1;
-			}else{
-				led2 =0;
-			}
-			if($(".switch > input")[2].checked){
-				led3 =1;
-			}else{
-				led3 =0;
-			}
-			if($(".switch > input")[3].checked){
-				led4 =1;
-			}else{
-				led4 =0;
-			}
-	  	var linkPost = ""+$(location).attr('href')+"/api/doLed";
-	  	var status = {};
-	  	status.led = [];
-	  	status.led[0]= led1;
-	  	status.led[1]= led2;
-	  	status.led[2]= led3;
-	  	status.led[3]= led4; 
-	  	
-	  	$.post(linkPost, status , function(data, status){
-        
-    	
-	  	if(data.success === true) {
-                swal(
-                    'Good job!',
-                    data.message,
-                    'success'
-                ).then(function() {
-                    location.reload();
-                });
-            } else {
-                swal(
-                    'Error',
-                    data.message,
-                    'error'
-                );
-            }
-	  });
-	  });
-        
-	    
-	    $(".remove").click(function(){
-	    	swal({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            type: 'warning',
-            showCancelButton: true
-        }).then(function(result){
-        	if(result.value){
-        		$.post(""+$(location).attr('href')+"/api/remove",
-	        {
-	          "remove":true
-	        },
-	        function(data,status){
-	            if(data.success === true) {
-                swal(
-                    'Good job!',
-                    data.message,
-                    'success'
-                ).then(function() {
-                    location.reload();
-                });
-            } else {
-                swal(
-                    'Error',
-                    data.message,
-                    'error'
-                );
-            }
-	        });
-        	}
-        });
-	    	
+    $(".btn-dropdown").click(function(){
+	        $(".dropdown-menu").toggle();
 	    });
-
-
-
 	});
 	</script>
 
