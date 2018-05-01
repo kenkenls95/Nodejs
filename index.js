@@ -162,7 +162,7 @@ router.post('/doLed',function(req,res){
                success: true
              });
 
-      con.connect(function(err){
+      try{con.connect(function(err){
         var sql = "SELECT `id` FROM `tbl_led` WHERE `id`=(SELECT max(`id`) FROM `tbl_led`)"
         var id;
         con.query(sql, function (err,result) {
@@ -174,7 +174,9 @@ router.post('/doLed',function(req,res){
         console.log("Update led status");  
         });
         });
-      });
+      });}catch(e){
+        console.log(e);
+      }
 });
 router.post('/remove',function(req,res){
     console.log("Message :",req.body)
