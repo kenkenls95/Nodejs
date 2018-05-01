@@ -222,7 +222,9 @@
 				return false;
 			}
 		}
-		$.get($(location).attr('href')+"/api/getLed", function(data, status){
+
+		for(var i =0 ; i<1;i++){
+			$.get($(location).attr('href')+"/api/getLed", function(data, status){
 		   
            $(".switch > input")[0].checked = readData(data.led1);
            
@@ -233,6 +235,7 @@
            $(".switch > input")[3].checked = readData(data.led4);
 
         });
+		}
 
 
 		var led1,led2,led3,led4;

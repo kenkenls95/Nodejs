@@ -11,14 +11,14 @@ var bodyParser = require('body-parser');
 // ===============Setup MQTT Broker==============
 const client = mqtt.connect("mqtt://m14.cloudmqtt.com", {
     username: "maukmmii",
-    password: "nsSM0k2eJ2z3",
+    password: "iQ7Cfl13XHNy",
     port: 15712,
     clientId: "WebUI"
 })
 client.on("connect", () => {
     client.subscribe("Topic")
     client.subscribe("Remove")
-    console.log("connected!")
+    console.log("connected mqtt!")
 })
 client.on("error", (e) => {
     console.log(e)
@@ -161,6 +161,20 @@ router.post('/doLed',function(req,res){
     res.json({ message: 'send success' ,
                success: true
              });
+
+      con.connect(function(err){
+        var sql = "SELECT `id` FROM `tbl_led` WHERE `id`=(SELECT max(`id`) FROM `tbl_led`)"
+        var id;
+        con.query(sql, function (err,result) {
+        id = result[0].id;
+        // console.log(id)
+        var sql = "UPDATE `tbl_led` SET `led1` = '"+led1+"', `led2` = '"+led2+"', `led3` = '"+led3+"', `led4` = '"+led4+"' WHERE `tbl_led`.`id`= "+id+""
+        console.log(sql)
+        con.query(sql, function(err){
+        console.log("Update led status");  
+        });
+        });
+      });
 });
 router.post('/remove',function(req,res){
     console.log("Message :",req.body)
@@ -170,16 +184,16 @@ router.post('/remove',function(req,res){
               success : true})
 })
 router.get('/getLed',function(req,res){
+  
     con.connect(function(err){
     var sql = "SELECT * FROM `tbl_led` WHERE `id`=(SELECT max(`id`) FROM `tbl_led`)";
-    con.query(sql,function(err,result,fields){
-    
+    con.query(sql,function(err,result,fields){ 
     Object.keys(result).forEach(function(key) {
-      var field = result[key];
+    var field = result[key];
       res.json(field)
     });
-    })
-  })
+    });
+  });
 });
 app.use('/remote/api', router);
 app.listen(process.env.PORT || 5000);
