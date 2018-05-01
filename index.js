@@ -36,10 +36,10 @@ client.on("message", (topic, message) => {
 //================Setup Mysql Connection================
 
 var con = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "mydb"
+  host: "85.10.205.173",
+  user: "kenkenls95",
+  password: "vaozoo8121995",
+  database: "kenkenls"
 });
 
 const addSql = (data) => {
