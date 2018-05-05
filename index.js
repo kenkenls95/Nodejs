@@ -145,9 +145,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 var router = express.Router(); 
-router.get('/', function(req, res) {
-    res.json({ message: 'hooray! welcome to our api!' });   
-});
 router.post('/doLed',function(req,res){
     console.log("Message :",req.body)
     var led1 = req.body.led[0];
@@ -160,13 +157,11 @@ router.post('/doLed',function(req,res){
     res.json({ message: 'send success' ,
                success: true
              });
-
       try{con.connect(function(err){
-        var sql = "SELECT `id` FROM `tbl_led` WHERE `id`=(SELECT max(`id`) FROM `tbl_led`)"
+        var sql = "SELECT `id` FROM `tbl_led` ORDER BY id DESC LIMIT 1"
         var id;
         con.query(sql, function (err,result) {
         id = result[0].id;
-        // console.log(id)
         var sql = "UPDATE `tbl_led` SET `led1` = '"+led1+"', `led2` = '"+led2+"', `led3` = '"+led3+"', `led4` = '"+led4+"' WHERE `tbl_led`.`id`= "+id+""
         console.log(sql)
         con.query(sql, function(err){
@@ -187,7 +182,7 @@ router.post('/remove',function(req,res){
 router.get('/getLed',function(req,res){
   
     con.connect(function(err){
-    var sql = "SELECT * FROM `tbl_led` WHERE `id`=(SELECT max(`id`) FROM `tbl_led`)";
+    var sql = "SELECT * FROM `tbl_led` ORDER BY id DESC LIMIT 1";
     con.query(sql,function(err,result,fields){ 
     Object.keys(result).forEach(function(key) {
     var field = result[key];
@@ -196,6 +191,37 @@ router.get('/getLed',function(req,res){
     });
   });
 });
+
+var routerEn = express.Router();
+
+routerEn.post('/humidity/lasthum',function(req,res){
+  con.connect(function(err){
+    var sql = "SELECT `value` FROM `tbl_humidity` ORDER BY id DESC LIMIT 1";
+    con.query(sql,function(err,result){
+      res.json(result);
+    })
+  })
+})
+
+routerEn.post('/temperature/lasttemp',function(req,res){
+  con.connect(function(err){
+    var sql = "SELECT `value` FROM `tbl_temperature` ORDER BY id DESC LIMIT 1";
+    con.query(sql,function(err,result){
+      res.json(result);
+    })
+  })
+})
+
+routerEn.post('/soilmoisture/lastsoil',function(req,res){
+  con.connect(function(err){
+    var sql = "SELECT `value` FROM `tbl_soilmoisture` ORDER BY id DESC LIMIT 1";
+    con.query(sql,function(err,result){
+      res.json(result);
+    })
+  })
+})
+
+app.use('/environment', routerEn);
 app.use('/remote/api', router);
 app.listen(process.env.PORT || 5000);
 
@@ -208,7 +234,7 @@ app.get('/remote', function (req, res) {
 })
 app.get('/environment/humidity', function (req, res) {
   con.connect(function(err){
-       con.query('SELECT * FROM `tbl_humidity`', function(err, result) {
+       con.query('SELECT * FROM `tbl_humidity` ', function(err, result) {
         var obj = {};
         if(err){
             throw err;

@@ -13,9 +13,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <style>
-
-</style>
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
 </head>
 <body>
 	
@@ -40,8 +38,13 @@
 		        </div>
 		    </nav>
 		</div>
+        <div class="row">
+            <h2>Độ ẩm đất thực tế</h2>
+            <div class="col-md-6 col-md-6 col-sm-6">
+                <div id="g1" class="gauge float-right"></div>
+            </div>
 		<div class="row" style="margin-top:20px">
-			<div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
+			<div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
 			<h2>Bảng tìm kiếm</h2>
 				 <table class="table" class="text-center" >  
 			        <thead>  
@@ -62,14 +65,6 @@
 			         </tbody>
 			    </table>   
 			</div>
-			<div class="col-lg-4" style="margin-top: 62px">
-			    <div class="input-group">
-			      <input type="text" class="form-control">
-			      <span class="input-group-btn">
-			        <button class="btn btn-default" type="button">Tìm</button>
-			      </span>
-			    </div>
-			  </div>
 			</div>
 		</div>
 	</div>
@@ -138,15 +133,47 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/locale/vi.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
-	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/justgage/1.2.9/justgage.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 
-	<script type="text/javascript">
-	$(document).ready(function(){
+    <script>
+        $(document).ready( function () {
+            $('.table').DataTable();
+        } );
+    </script>
+
+    <script type="text/javascript">
+    $(document).ready(function(){
     $(".btn-dropdown").click(function(){
-	        $(".dropdown-menu").toggle();
-	    });
-	});
-	</script>
+            $(".dropdown-menu").toggle();
+        });
+    });
+    </script>   
+     <script>
+        var soilmoisture =0
+         function get_element() {
+                $.post( $(location).attr('href')+"/lastsoil", function(res) {
+                    soilmoisture = res[0].value;
+                });
+            }   
+        window.onload = function(){
+        var g1 = new JustGage({
+          id: "g1",
+          value: soilmoisture,
+           min: -15,
+           max: 100,
+           title: "Độ ẩm thực tế",
+           label: "%",    
+           gaugeWidthScale: 0.2
+        });
+
+        setInterval(function() {
+          g1.refresh(soilmoisture);
+        }, 1000);
+      };
+      setInterval(get_element,10000);
+     </script>
 
 </body>
 </html>
