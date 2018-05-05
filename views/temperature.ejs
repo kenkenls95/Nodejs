@@ -156,8 +156,9 @@
 	 <script>
 	 	var temperature =0
 		 function get_element() {
-                $.post( $(location).attr('href')+"/lastemp", function(res) {
+                $.post( $(location).attr('href')+"/lasttemp", function(res) {
                     temperature = res[0].value;
+                    console.log(humidity)
                 });
             }   
 	 	window.onload = function(){
@@ -166,13 +167,13 @@
           value: temperature,
            min: -15,
            max: 100,
-           title: "Nhiệt độ thực tế",
+           title: "Độ ẩm thực tế",
            label: "%",    
            gaugeWidthScale: 0.2
         });
 
         setInterval(function() {
-          g1.refresh(temperature;
+          g1.refresh(temperature);
         }, 1000);
       };
       setInterval(get_element,10000);
